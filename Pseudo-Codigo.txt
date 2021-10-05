@@ -1,0 +1,89 @@
+//Funcion Tiempo obtine una cadena de texto con el tiempo transcurrido
+Define Tiempo Inicio:
+  Si (H < 10) entonces:
+    str = "0" + H
+  Sino:
+    str = H
+  Fin Si
+
+  Si (M < 10) entonces:
+    str = ":0" + M
+  Sino:
+    str = ":" + M
+  Fin Si
+
+  Si (S < 10) entonces:
+    str = ":0" + S
+  Sino:
+    str = ":" + S 
+  Fin Si
+Fin
+  
+
+Inicio
+  //Definicion de variables
+  H = 0 //Horas
+  M = 0 //Minutos
+  S = 0 //Segundos
+  str = " "
+  bol = False
+  width = floor(Get_Max_Width / 2)
+  height = floor(Get_Max_Height / 2)
+
+  //Definicion de ventana
+  Open_Graph_Window(width, height)
+  Set_Window_Title("Cronometro")
+  Set_Font_Size(18)
+
+  //Instrucciones para el usuario
+  Display_text(30, 360, "Presiona cualquier tecla para iniciar el cronometro", Blue)
+  Display_text(90, 180, "Vuelve a presionar para detener el cronometro", Blue)
+  Set_Font_Size(24)
+
+  //Espera a que el usuario inicie el programa
+  Wait_For_Key
+
+  //Ciclo principal
+  Loop Inicio:
+    bol = true break;
+    
+    //Mostrar el tiempo transcurrido
+    Tiempo
+    Clear_Window(White)
+    Display_text(270,270,str,Blue)
+
+    //Detectar si se presiona una tecla
+    Si (Key_Hit) entonces:
+      bol = true
+    Sino:
+      //Aumenta el contador de segundos en 1
+      S = S + 1
+
+      //Verifica que sea sexagesimal
+      Si (S >= 60) entonces:
+        S = 0
+        M = M + 1
+        Si (M >= 60) entonces:
+          M = 0
+          H = H + 1
+        Fin Si
+      Fin Si
+
+      //Espera por un segundo
+      Delay_for(1)
+
+    Fin Si
+  Fin Loop
+
+  //Dice al usuario el tiempo final
+  Set_Font_Size(18)
+  Display_text(180, 360, "Tiempo final:", Blue)
+  Wait_For_Key
+
+  //Espara a que se vuelva a presionar una tecla para cerrar la ventana
+  Wait_For_Key
+  Close_Graph_Window
+
+  //Coloca el tiempo final en consola
+  Imprime "Tiempo final: " + str
+Fin
